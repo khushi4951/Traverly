@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traverly – AI Trip Planner</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+  <img src="assets/logo.png" alt="Traverly Logo" width="40" height="40" class="me-2">
+  Traverly
+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="tripplanner.html">Trip Planner</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#deals">Deals</a></li>
+        <li class="nav-item">
+          <a class="btn btn-primary ms-lg-3" href="#" data-bs-toggle="modal" data-bs-target="#signinModal">Sign In</a>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="bg-dark text-white text-center py-5" style="background: url('hero-image.jpg') center/cover no-repeat;">
+  <div class="container py-5">
+    <h1 class="fw-bold display-3">
+      Craft Unforgettable<br>
+      Itineraries with<br>
+      <span style="color:#2cb673;">AI Trip Planner</span>
+    </h1>
+    <p class="lead mb-4">Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.</p>
+    <a href="listing.html" class="btn btn-light btn-lg">Get started — it's free</a>
+  </div>
+</section>
+
+
+<!-- Features Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4 text-center">
+        <div class="display-4">🛠</div>
+        <h4 class="fw-bold mt-3">Adjust your itinerary as needed</h4>
+        <p>Reorder, add, or remove locations on your itinerary, all on a single page.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="display-4">🤖</div>
+        <h4 class="fw-bold mt-3">AI Travel</h4>
+        <p>Personalized accommodation suggestions tailored to your preferences.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="display-4">📄</div>
+        <h4 class="fw-bold mt-3">Offline Access</h4>
+        <p>Download and save your plan as a PDF to access anytime, anywhere.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-light text-center py-5">
+  <div class="container">
+    <h2 class="fw-bold">Everything you need for planning your trip</h2>
+    <p class="lead">Skip the manual trip planning and start your effortless journey with Trip Planner AI today, at no cost.</p>
+    <a href="tripplanner.html" class="btn btn-primary btn-lg">Try Now</a>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="py-5">
+  <div class="container">
+    <h3 class="fw-bold mb-4">FAQs</h3>
+    <div class="accordion" id="faqAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+            What is Traverly?
+          </button>
+        </h2>
+        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Imagine having a personal travel agent in your pocket — that’s exactly what Traverly is. It’s an AI-powered trip planner that creates customized travel itineraries based on your destination, budget, dates, and interests. Instead of spending hours researching hotels, attractions, and activities, Traverly does the hard work for you. With just a few clicks, you get a personalized day-by-day plan that you can adjust, save, and even download for offline use. Whether you’re traveling solo, with family, friends, or as a couple, Traverly ensures your journey is stress-free, efficient, and tailored to you.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+            Is Traverly free to use?
+          </button>
+        </h2>
+        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes, Traverly is a free planning tool (for now).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-4 bg-white border-top">
+  <div class="container text-center">
+    <div class="mb-3">
+      <a href="#contact" class="text-decoration-none me-3">Contact</a>
+      <a href="#blog" class="text-decoration-none me-3">Blog</a>
+      <a href="#twitter" class="text-decoration-none me-3">Twitter</a>
+      <a href="#privacy" class="text-decoration-none">Privacy Policy</a>
+    </div>
+    <p class="text-muted mb-0">© 2025 Traverly.</p>
+  </div>
+</footer>
+<!-- Sign In Modal -->
+<div class="modal fade" id="signinModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 shadow-lg border-0 overflow-hidden">
+      <div class="row g-0">
+        <!-- Left side: branding / features -->
+        <div class="col-md-6 d-flex flex-column justify-content-center text-white p-5" style="background: linear-gradient(135deg, #2cb673, #1f8a52);">
+          <h2 class="fw-bold mb-3">Welcome Back</h2>
+          <p class="mb-4">Sign in to plan your next adventure with Traverly.</p>
+          <ul class="list-unstyled">
+            <li class="mb-2">✔ AI powered itineraries</li>
+            <li class="mb-2">✔ Flexible trip adjustments</li>
+            <li class="mb-2">✔ Save and access anywhere</li>
+          </ul>
+        </div>
+
+        <!-- Right side: form -->
+        <div class="col-md-6 bg-white p-5">
+          <ul class="nav nav-pills mb-4" id="signinTabs">
+            <li class="nav-item w-50">
+              <button class="nav-link active w-100" data-bs-toggle="pill" type="button">Login</button>
+            </li>
+            <li class="nav-item w-50">
+              <button class="nav-link w-100" data-bs-toggle="pill" type="button">Sign Up</button>
+            </li>
+          </ul>
+
+          <form>
+            <div class="mb-3">
+              <input type="email" class="form-control rounded-3" placeholder="Email">
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control rounded-3" placeholder="Password">
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <small><a href="#" class="text-decoration-none" style="color:#2cb673;">Forgot Password?</a></small>
+            </div>
+            <button type="submit" class="btn btn-lg w-100 text-white rounded-3" style="background: linear-gradient(135deg, #2cb673, #1f8a52);">
+              Login
+            </button>
+          </form>
+
+          <div class="text-center mt-3">
+            <small>Don't have an account? <a href="#" style="color:#2cb673;">Sign Up</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
