@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Traverly • Deals</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background:#f9fafb; font-family:"Inter",sans-serif; }
+    h2.section-title { font-weight:700; font-size:1.4rem; margin:2rem 0 1rem; }
+    .deal-card {
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 2px 8px rgba(0,0,0,.05);
+      padding:1.25rem 1.5rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      transition:all .2s;
+    }
+    .deal-card:hover { transform:translateY(-3px); box-shadow:0 4px 12px rgba(0,0,0,.1); }
+    .deal-left { display:flex; align-items:center; gap:1rem; }
+    .deal-logo {
+      width:50px; height:50px;
+      background:#eef1f5;
+      border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem;
+    }
+    .deal-info h6 { margin:0; font-weight:600; }
+    .deal-info p { margin:0; font-size:0.9rem; color:#555; }
+    .deal-btn {
+      border:none;
+      background:#e8ecf8;
+      color:#1d4ed8;
+      font-weight:600;
+      padding:6px 14px;
+      border-radius:8px;
+      font-size:0.9rem;
+    }
+    .deal-btn:hover { background:#1d4ed8; color:#fff; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <img src="assets/logo.png" alt="Traverly Logo" width="35" height="35" class="me-2">
+        Traverly
+      </a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="tripplanner.html">Trip Planner</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link active" href="deals.html">Deals</a></li>
+          <li class="nav-item"><a class="btn btn-primary ms-lg-3" href="signin.html">Sign In</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Deals Section -->
+  <section class="py-4">
+    <div class="container">
+
+      <h2 class="section-title">💸 Best Deals</h2>
+      <div id="bestDeals" class="d-flex flex-column gap-3"></div>
+
+      <h2 class="section-title">🎟️ Tours & Activities</h2>
+      <div id="toursDeals" class="d-flex flex-column gap-3"></div>
+
+      <h2 class="section-title">🚆 Transportations</h2>
+      <div id="transportDeals" class="d-flex flex-column gap-3"></div>
+
+      <h2 class="section-title">🏨 Lodging</h2>
+      <div id="lodgingDeals" class="d-flex flex-column gap-3"></div>
+
+      <h2 class="section-title">🛡️ Insurance</h2>
+      <div id="insuranceDeals" class="d-flex flex-column gap-3"></div>
+
+      <div class="text-center mt-4">
+        <button id="reloadBtn" class="btn btn-outline-primary rounded-pill">🔄 Shuffle Deals</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Deals data grouped by category
+    const bestDeals = [
+      { logo:"🌐", title:"15% off", desc:"New users only. Valid until November 30.", code:"TRAVEL15" },
+      { logo:"📶", title:"5% off", desc:"Best rated unlimited data eSIM.", code:"TRAVEL5" },
+      { logo:"✈️", title:"9% off", desc:"For AirHelp Plus subscription only.", code:"AHTRPS9" }
+    ];
+
+    const toursDeals = [
+      { logo:"🎫", title:"10% off", desc:"Exclusively checkout on the app.", code:"SAVEAPP10" },
+      { logo:"🏞️", title:"5% off", desc:"Valid for non-City Pass products.", code:"WANDER5" },
+      { logo:"🎟️", title:"US$5 off", desc:"Valid for first booking only.", code:"ZKWJLD" }
+    ];
+
+    const transportDeals = [
+      { logo:"🚆", title:"10% off", desc:"Book trains, ferries & flights.", code:"S018500" },
+      { logo:"🚗", title:"€10 off", desc:"For new users only. Min. order €44.", code:"OMIO10" },
+      { logo:"✈️", title:"", desc:"Use Google Flights to explore cheap flights.", code:"EXPLORE" }
+    ];
+
+    const lodgingDeals = [
+      { logo:"🏨", title:"10% off", desc:"Valid for new users. Up to $100.", code:"WJKILWX" },
+      { logo:"🛏️", title:"", desc:"World’s leading full-service travel brand.", code:"EXPEDIA" }
+    ];
+
+    const insuranceDeals = [
+      { logo:"🪶", title:"SafetyWing", desc:"Affordable travel insurance for digital nomads.", code:"SAFE5" },
+      { logo:"🌍", title:"World Nomads", desc:"Insurance for explorers & adventurers.", code:"WNFOUND" }
+    ];
+
+    // render function
+    function renderDeals(containerId, deals) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      deals.forEach(d => {
+        const card = document.createElement("div");
+        card.className = "deal-card";
+        card.innerHTML = `
+          <div class="deal-left">
+            <div class="deal-logo">${d.logo}</div>
+            <div class="deal-info">
+              <h6>${d.title || "Special Offer"}</h6>
+              <p>${d.desc}</p>
+            </div>
+          </div>
+          <button class="deal-btn">${d.code}</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // load everything on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      renderDeals("bestDeals", bestDeals);
+      renderDeals("toursDeals", toursDeals);
+      renderDeals("transportDeals", transportDeals);
+      renderDeals("lodgingDeals", lodgingDeals);
+      renderDeals("insuranceDeals", insuranceDeals);
+
+      // shuffle function on click
+      document.getElementById("reloadBtn").addEventListener("click", () => {
+        [bestDeals, toursDeals, transportDeals, lodgingDeals, insuranceDeals].forEach(arr => arr.sort(() => 0.5 - Math.random()));
+        renderDeals("bestDeals", bestDeals);
+        renderDeals("toursDeals", toursDeals);
+        renderDeals("transportDeals", transportDeals);
+        renderDeals("lodgingDeals", lodgingDeals);
+        renderDeals("insuranceDeals", insuranceDeals);
+      });
+
+    });
+    document.addEventListener("click", (e) => {
+     if (e.target.classList.contains("deal-btn")) {
+        const code = e.target.textContent.trim();
+        navigator.clipboard.writeText(code);
+        e.target.textContent = "✅ Copied!";
+        setTimeout(() => (e.target.textContent = code), 1500); }
+});
+
+    
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
