@@ -4,17 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Traverly • Trip Planner</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  >
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #fdfdfd;
+    }
+
+    h2, h4 {
+      color: #1d3557;
+    }
+
+    .section-title {
+      border-left: 4px solid #457b9d;
+      padding-left: 10px;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    /* Card styles */
+    .selectable {
+      cursor: pointer;
+      transition: all 0.25s ease-in-out;
+      background-color: #fff;
+    }
+
+    .selectable:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .budget-card.border-primary,
+    .companion-card.border-success,
+    .activity-card.border-warning {
+      background-color: #f8f9fa !important;
+      transform: scale(1.03);
+    }
+
+    .trip-section {
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    #tripSummary {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-primary {
+      background-color: #1d3557;
+      border-color: #1d3557;
+    }
+
+    .btn-primary:hover {
+      background-color: #457b9d;
+      border-color: #457b9d;
+    }
+
+  </style>
 </head>
 <body>
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
       <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-        <!-- Optional: logo next to brand -->
         <img src="assets/logo.png" alt="Traverly Logo" width="40" height="40" class="me-2">
         Traverly
       </a>
@@ -24,7 +83,7 @@
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto align-items-center">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="tripplanner.html">Trip Planner</a></li>
+          <li class="nav-item"><a class="nav-link active" href="tripplanner.html">Trip Planner</a></li>
           <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Deals</a></li>
           <li class="nav-item"><a class="btn btn-primary ms-lg-3" href="signin.html">Sign In</a></li>
@@ -36,157 +95,131 @@
   <!-- Trip Planner Section -->
   <section id="trip-planner" class="py-5">
     <div class="container">
-      <h2 class="h3 fw-bold mb-3">Tell us your travel preferences</h2>
-      <p class="mb-4">Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>
-      <form>
-        <!-- Destination -->
-        <div class="mb-4">
-          <label class="form-label">What is destination of choice?</label>
-          <input type="text" class="form-control" placeholder="e.g., New York">
-        </div>
-
-        <!-- Dates and Days -->
-        <div class="mb-4 row">
-          <div class="col-md-6 mb-3 mb-md-0">
-            <label class="form-label">When are you planning to travel?</label>
-            <input type="date" class="form-control">
+      <div class="trip-section">
+        <h2 class="h3 fw-bold mb-3">Plan Your Dream Trip 🧳</h2>
+        <p class="text-muted mb-4">Fill in your travel details below, and we’ll help you generate a personalized travel summary.</p>
+        
+        <form>
+          <!-- Destination -->
+          <h5 class="section-title">Destination</h5>
+          <div class="mb-4">
+            <input type="text" class="form-control" placeholder="e.g., Paris, Tokyo, New York" id="destination">
           </div>
-          <div class="col-md-6">
-            <label class="form-label">How many days are you planning to travel?</label>
-            <input type="number" class="form-control" min="1" placeholder="e.g., 3">
-          </div>
-        </div>
 
-        <!-- Budget -->
-        <div class="mb-4">
-          <label class="form-label">What is your budget? <small class="text-muted">(for activities & dining)</small></label>
-          <div class="row g-3">
+          <!-- Dates and Days -->
+          <h5 class="section-title">Travel Details</h5>
+          <div class="row mb-4">
+            <div class="col-md-6 mb-3 mb-md-0">
+              <input type="date" class="form-control" id="travelDate">
+            </div>
+            <div class="col-md-6">
+              <input type="number" class="form-control" min="1" placeholder="Number of days" id="days">
+            </div>
+          </div>
+
+          <!-- Budget -->
+          <h5 class="section-title">Budget</h5>
+          <div class="row g-3 mb-4">
             <div class="col-md-4">
-              <div class="border rounded p-3 text-center">
-                <!-- Replace with actual icon -->
+              <div class="border rounded p-3 text-center budget-card selectable" data-budget="Low">
                 <span class="fs-3">💵</span>
                 <div>Low<br><small>0 – 1,000 USD</small></div>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="border rounded p-3 text-center">
+              <div class="border rounded p-3 text-center budget-card selectable" data-budget="Medium">
                 <span class="fs-3">💰</span>
                 <div>Medium<br><small>1,000 – 2,500 USD</small></div>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="border rounded p-3 text-center">
+              <div class="border rounded p-3 text-center budget-card selectable" data-budget="High">
                 <span class="fs-3">💎</span>
                 <div>High<br><small>2,500+ USD</small></div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Travel Companions -->
-        <div class="mb-4">
-          <label class="form-label">Who do you plan on traveling with?</label>
-          <div class="row g-3">
+          <!-- Companions -->
+          <h5 class="section-title">Who Are You Traveling With?</h5>
+          <div class="row g-3 mb-4">
             <div class="col-6 col-md-3 text-center">
-              <div class="border rounded p-3"> <!-- Image placeholder -->
-                <span class="fs-3">👤</span>
-                <div>Solo</div>
+              <div class="border rounded p-3 companion-card selectable" data-companion="Solo">
+                <span class="fs-3">👤</span><div>Solo</div>
               </div>
             </div>
             <div class="col-6 col-md-3 text-center">
-              <div class="border rounded p-3">
-                <span class="fs-3">❤️</span>
-                <div>Couple</div>
+              <div class="border rounded p-3 companion-card selectable" data-companion="Couple">
+                <span class="fs-3">❤️</span><div>Couple</div>
               </div>
             </div>
             <div class="col-6 col-md-3 text-center">
-              <div class="border rounded p-3">
-                <span class="fs-3">👨‍👩‍👧</span>
-                <div>Family</div>
+              <div class="border rounded p-3 companion-card selectable" data-companion="Family">
+                <span class="fs-3">👨‍👩‍👧</span><div>Family</div>
               </div>
             </div>
             <div class="col-6 col-md-3 text-center">
-              <div class="border rounded p-3">
-                <span class="fs-3">👫</span>
-                <div>Friends</div>
+              <div class="border rounded p-3 companion-card selectable" data-companion="Friends">
+                <span class="fs-3">👫</span><div>Friends</div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Activities -->
-        <div class="mb-4">
-          <label class="form-label">Which activities are you interested in?</label>
-          <div class="row g-3">
+          <!-- Activities -->
+          <h5 class="section-title">Choose Your Activities</h5>
+          <div class="row g-3 mb-4">
             <div class="col-6 col-md-3 text-center">
-              <div class="border rounded p-3">
-                <span class="fs-3">🏖️</span>
-                <div>Beaches</div>
-              </div>
+              <div class="border rounded p-3 activity-card selectable" data-activity="Beaches"><span class="fs-3">🏖️</span><div>Beaches</div></div>
             </div>
             <div class="col-6 col-md-3 text-center">
-              <div class="border rounded p-3">
-                <span class="fs-3">🏙️</span>
-                <div>City sightseeing</div>
-              </div>
+              <div class="border rounded p-3 activity-card selectable" data-activity="City sightseeing"><span class="fs-3">🏙️</span><div>City sightseeing</div></div>
             </div>
             <div class="col-6 col-md-3 text-center">
-              <div class="border rounded p-3">
-                <span class="fs-3">🥾</span>
-                <div>Outdoor adventures</div>
-              </div>
+              <div class="border rounded p-3 activity-card selectable" data-activity="Outdoor adventures"><span class="fs-3">🥾</span><div>Outdoor adventures</div></div>
             </div>
             <div class="col-6 col-md-3 text-center">
-              <div class="border rounded p-3">
-                <span class="fs-3">🎉</span>
-                <div>Festivals / Events</div>
-              </div>
+              <div class="border rounded p-3 activity-card selectable" data-activity="Festivals"><span class="fs-3">🎉</span><div>Festivals</div></div>
             </div>
-            <div class="col-6 col-md-3 text-center mt-3">
-              <div class="border rounded p-3">
-                <span class="fs-3">🍽️</span>
-                <div>Food exploration</div>
-              </div>
+            <div class="col-6 col-md-3 text-center">
+              <div class="border rounded p-3 activity-card selectable" data-activity="Food exploration"><span class="fs-3">🍽️</span><div>Food exploration</div></div>
             </div>
-            <div class="col-6 col-md-3 text-center mt-3">
-              <div class="border rounded p-3">
-                <span class="fs-3">🌃</span>
-                <div>Nightlife</div>
-              </div>
+            <div class="col-6 col-md-3 text-center">
+              <div class="border rounded p-3 activity-card selectable" data-activity="Nightlife"><span class="fs-3">🌃</span><div>Nightlife</div></div>
             </div>
-            <div class="col-6 col-md-3 text-center mt-3">
-              <div class="border rounded p-3">
-                <span class="fs-3">🛍️</span>
-                <div>Shopping</div>
-              </div>
+            <div class="col-6 col-md-3 text-center">
+              <div class="border rounded p-3 activity-card selectable" data-activity="Shopping"><span class="fs-3">🛍️</span><div>Shopping</div></div>
             </div>
-            <div class="col-6 col-md-3 text-center mt-3">
-              <div class="border rounded p-3">
-                <span class="fs-3">💆‍♀️</span>
-                <div>Spa wellness</div>
-              </div>
+            <div class="col-6 col-md-3 text-center">
+              <div class="border rounded p-3 activity-card selectable" data-activity="Spa & Wellness"><span class="fs-3">💆‍♀️</span><div>Spa & Wellness</div></div>
             </div>
           </div>
-        </div>
 
-        <!-- Dietary Preferences -->
-        <div class="mb-4 form-check">
-          <input type="checkbox" class="form-check-input" id="halalCheckbox">
-          <label class="form-check-label" for="halalCheckbox">Non Vegetarian</label>
-        </div>
-        <div class="mb-4 form-check">
-          <input type="checkbox" class="form-check-input" id="vegCheckbox">
-          <label class="form-check-label" for="vegCheckbox">Vegetarian</label>
-        </div>
+          <!-- Dietary Preferences -->
+          <h5 class="section-title">Dietary Preferences</h5>
+          <div class="mb-4 form-check">
+            <input type="checkbox" class="form-check-input" id="nonVeg">
+            <label for="nonVeg" class="form-check-label">Non Vegetarian</label>
+          </div>
+          <div class="mb-4 form-check">
+            <input type="checkbox" class="form-check-input" id="veg">
+            <label for="veg" class="form-check-label">Vegetarian</label>
+          </div>
 
-        <!-- Submit -->
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </div>
-      </form>
+          <!-- Buttons -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Generate Trip Summary</button>
+          </div>
+          <div class="text-center mt-3">
+            <button id="clearTrip" class="btn btn-outline-danger btn-sm">Clear Saved Trip</button>
+          </div>
+        </form>
+
+        <div id="tripSummary" class="mt-5"></div>
+      </div>
     </div>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="tripplanner.js"></script>
 </body>
 </html>
