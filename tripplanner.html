@@ -8,6 +8,20 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
   >
+
+  <style>
+   
+ .modal.fade .modal-dialog {
+  transform: translateY(-30px);
+  transition: transform 0.35s ease-out, opacity 0.35s ease-out;
+  opacity: 0;
+}
+.modal.show .modal-dialog {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+  </style>
 </head>
 <body>
   
@@ -27,7 +41,9 @@
           <li class="nav-item"><a class="nav-link" href="tripplanner.html">Trip Planner</a></li>
           <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Deals</a></li>
-          <li class="nav-item"><a class="btn btn-primary ms-lg-3" href="signin.html">Sign In</a></li>
+          <li class="nav-item">
+          <a class="btn btn-primary ms-lg-3" href="#" data-bs-toggle="modal" data-bs-target="#signinModal">Sign In</a>
+        </li>
         </ul>
       </div>
     </div>
@@ -186,6 +202,57 @@
       </form>
     </div>
   </section>
+
+  <!-- Sign In Modal -->
+<div class="modal fade" id="signinModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 shadow-lg border-0 overflow-hidden">
+      <div class="row g-0">
+        <!-- Left side: branding / features -->
+        <div class="col-md-6 d-flex flex-column justify-content-center text-white p-5" style="background: linear-gradient(135deg, #2cb673, #1f8a52);">
+          <h2 class="fw-bold mb-3">Welcome Back</h2>
+          <p class="mb-4">Sign in to plan your next adventure with Traverly.</p>
+          <ul class="list-unstyled">
+            <li class="mb-2">✔ AI powered itineraries</li>
+            <li class="mb-2">✔ Flexible trip adjustments</li>
+            <li class="mb-2">✔ Save and access anywhere</li>
+          </ul>
+        </div>
+
+        <!-- Right side: form -->
+        <div class="col-md-6 bg-white p-5">
+          <ul class="nav nav-pills mb-4" id="signinTabs">
+            <li class="nav-item w-50">
+              <button class="nav-link active w-100" data-bs-toggle="pill" type="button">Login</button>
+            </li>
+            <li class="nav-item w-50">
+              <button class="nav-link w-100" data-bs-toggle="pill" type="button">Sign Up</button>
+            </li>
+          </ul>
+
+          <form>
+            <div class="mb-3">
+              <input type="email" class="form-control rounded-3" placeholder="Email">
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control rounded-3" placeholder="Password">
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <small><a href="#" class="text-decoration-none" style="color:#2cb673;">Forgot Password?</a></small>
+            </div>
+            <button type="submit" class="btn btn-lg w-100 text-white rounded-3" style="background: linear-gradient(135deg, #2cb673, #1f8a52);">
+              Login
+            </button>
+          </form>
+
+          <div class="text-center mt-3">
+            <small>Don't have an account? <a href="#" style="color:#2cb673;">Sign Up</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
