@@ -53,12 +53,15 @@
 
 ## 🧱 Built With
 
-- ⚛️ **React** – for an interactive and dynamic user interface  
-- 🎨 **Tailwind CSS** – for a modern, responsive design  
-- 🧠 **OpenAI API** – to generate intelligent travel plans  
-- ▲ **Vercel** – for smooth, reliable hosting  
+| 💻 Technology | ⚙️ Purpose |
+|----------------|------------|
+| 🧩 **HTML5** | Structure and content |
+| 🎨 **CSS3** | Styling and layout |
+| 🪶 **Bootstrap 5** | Responsive design and UI components |
+| ⚡ **JavaScript (Vanilla)** | Dynamic content and interactivity |
+| ☁️ **Vercel** | Hosting and deployment |
 
-*(No installation required — just use it online.)*
+*(No installation required — everything runs directly in your browser!)*
 
 ---
 
