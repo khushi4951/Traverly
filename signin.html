@@ -12,6 +12,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      opacity: 0;
+      animation: fadeIn 0.6s ease-in forwards;
     }
     .auth-card {
       max-width: 1000px;
@@ -46,7 +48,13 @@
     }
     a:hover {
       text-decoration: underline;
+
     }
+    
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
   </style>
 </head>
 <body>
@@ -54,7 +62,7 @@
 <div class="container">
   <div class="row auth-card g-0">
     
-    <!-- Left side -->
+    
     <div class="col-md-6 d-flex flex-column justify-content-center p-5 auth-left">
       <h2 class="mb-3">Welcome Back</h2>
       <p class="mb-4">Sign in to plan your next adventure with Traverly.</p>
@@ -65,9 +73,8 @@
       </ul>
     </div>
     
-    <!-- Right side -->
+   
     <div class="col-md-6 d-flex flex-column justify-content-center p-5 bg-white">
-      <!-- Tabs -->
       <ul class="nav nav-pills mb-4" id="authTabs">
         <li class="nav-item w-50">
           <button class="nav-link active w-100" id="login-tab" data-bs-toggle="pill" data-bs-target="#login">
@@ -81,10 +88,10 @@
         </li>
       </ul>
       
-      <!-- Tab Content -->
+      
       <div class="tab-content flex-grow-1">
         
-        <!-- Login -->
+    
         <div class="tab-pane fade show active" id="login">
           <form>
             <div class="mb-3">
@@ -100,7 +107,7 @@
           </form>
         </div>
         
-        <!-- Sign Up -->
+       
         <div class="tab-pane fade" id="signup">
           <form>
             <div class="mb-3">
@@ -117,7 +124,7 @@
         </div>
       </div>
       
-      <!-- Footer -->
+    
       <div class="text-center mt-3">
         <small>Don’t have an account? <a href="#" onclick="document.getElementById('signup-tab').click()">Sign Up</a></small>
       </div>
