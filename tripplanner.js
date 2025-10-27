@@ -2,13 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('tripForm');
   const resultSection = document.getElementById('resultSection');
   const summaryDiv = document.getElementById('tripSummary');
-  const hotelDiv = document.getElementById('hotelSuggestions');
-  const spotsDiv = document.getElementById('touristSpots');
+  const suggestionsDiv = document.getElementById('suggestions');
 
   let selectedBudget = '';
   let selectedCompanion = '';
   let selectedActivities = [];
 
+  // --- Card Selection Logic ---
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.selectable');
     if (!card) return;
@@ -37,8 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  form.addEventListener('submit', (e) => {
+  // --- Form Submit Handler ---
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const destination = document.getElementById('destination').value.trim();
     const travelDate = document.getElementById('travelDate').value;
     const days = document.getElementById('days').value;
@@ -60,10 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     displaySummary(tripData);
-    showSuggestions(tripData);
+    await fetchSuggestions(destination);
     resultSection.style.display = 'block';
   });
 
+  // --- Display Trip Summary ---
   function displaySummary(data) {
     summaryDiv.innerHTML = `
       <ul class="list-unstyled mb-3">
@@ -78,16 +81,81 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  function showSuggestions(data) {
-    hotelDiv.innerHTML = `
-      <div class="card p-3 mb-2">🏨 ${data.destination} Grand Hotel</div>
-      <div class="card p-3 mb-2">🛏️ Comfort Stay ${data.destination}</div>
-      <div class="card p-3 mb-2">🌇 Budget Inn ${data.destination}</div>
-    `;
-    spotsDiv.innerHTML = `
-      <div class="card p-3 mb-2">📍 Central Park ${data.destination}</div>
-      <div class="card p-3 mb-2">📍 Historic Museum ${data.destination}</div>
-      <div class="card p-3 mb-2">📍 City Tower ${data.destination}</div>
-    `;
+  // --- Fetch Suggestions from JSON Server ---
+  async function fetchSuggestions(destination) {
+    suggestionsDiv.innerHTML = `<p class="text-muted">Fetching hotels and tourist spots for ${destination}...</p>`;
+
+    try {
+      const [hotelsRes, spotsRes] = await Promise.all([
+        fetch(`http://localhost:3000/hotels?destination=${encodeURIComponent(destination)}`),
+        fetch(`http://localhost:3000/spots?destination=${encodeURIComponent(destination)}`)
+      ]);
+
+      const hotels = await hotelsRes.json();
+      const spots = await spotsRes.json();
+
+      if (hotels.length === 0 && spots.length === 0) {
+        suggestionsDiv.innerHTML = `<p class="text-danger">No data found for "${destination}". Try another location.</p>`;
+        return;
+      }
+
+      // --- Hotel & Spot Cards with Images + Map Links ---
+      suggestionsDiv.innerHTML = `
+        <div class="card shadow-sm border-0 p-3 mb-4">
+          ${hotels.length ? `
+            <h4 class="fw-bold mb-3 text-primary">🏨 Hotel Suggestions</h4>
+            <div class="row g-3">
+              ${hotels.map(h => `
+                <div class="col-12">
+                  <div class="card border-0 shadow-sm mb-3">
+                    <div class="row g-0">
+                      <div class="col-4">
+                        <img src="${h.imageUrl || 'assets/default-hotel.jpg'}" class="img-fluid rounded-start" alt="${h.name}">
+                      </div>
+                      <div class="col-8">
+                        <div class="card-body">
+                          <h6 class="card-title mb-1">${h.name}</h6>
+                          <p class="small text-muted mb-1">${h.description || ''}</p>
+                          <p class="mb-1"><strong>${h.price}</strong> • ⭐ ${h.rating}</p>
+                          ${h.mapUrl ? `<a href="${h.mapUrl}" target="_blank" class="btn btn-sm btn-outline-primary">📍 View Map</a>` : ''}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          ${spots.length ? `
+            <h4 class="fw-bold mt-4 mb-3 text-primary">🗺️ Tourist Highlights</h4>
+            <div class="row g-3">
+              ${spots.map(s => `
+                <div class="col-12">
+                  <div class="card border-0 shadow-sm mb-3">
+                    <div class="row g-0">
+                      <div class="col-4">
+                        <img src="${s.imageUrl || 'assets/default-spot.jpg'}" class="img-fluid rounded-start" alt="${s.place}">
+                      </div>
+                      <div class="col-8">
+                        <div class="card-body">
+                          <h6 class="card-title mb-1">${s.place}</h6>
+                          <p class="small text-muted mb-1">${s.desc || ''}</p>
+                          ${s.category ? `<span class="badge bg-info text-dark">${s.category}</span>` : ''}
+                          ${s.mapUrl ? `<a href="${s.mapUrl}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">📍 Map</a>` : ''}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      suggestionsDiv.innerHTML = `<p class="text-danger">Failed to load suggestions. Please check your server.</p>`;
+    }
   }
 });

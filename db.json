@@ -1,0 +1,143 @@
+{
+  "hotels": [
+    {
+      "destination": "Paris",
+      "name": "Hotel Le Meurice",
+      "price": "$250/night",
+      "rating": "4.8★",
+      "description": "Elegant 5-star hotel near the Tuileries Garden.",
+      "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945",
+      "mapUrl": "https://goo.gl/maps/GnJmjf7pEPbfszjq9"
+    },
+    {
+      "destination": "Paris",
+      "name": "The Ritz Paris",
+      "price": "$300/night",
+      "rating": "4.9★",
+      "description": "Luxury hotel with historic charm and lavish interiors.",
+      "imageUrl": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+      "mapUrl": "https://goo.gl/maps/pQ9m3FvDq4fWAK9x8"
+    },
+    {
+      "destination": "Tokyo",
+      "name": "Shinjuku Stay",
+      "price": "$120/night",
+      "rating": "4.2★",
+      "description": "Modern stay near Tokyo's vibrant nightlife district.",
+      "imageUrl": "https://images.unsplash.com/photo-1568084680786-a84f91d1153c",
+      "mapUrl": "https://goo.gl/maps/omUVfs2KBC7Km6qE9"
+    },
+    {
+      "destination": "New York",
+      "name": "Times Square Suites",
+      "price": "$200/night",
+      "rating": "4.6★",
+      "description": "Central Manhattan location, ideal for city explorers.",
+      "imageUrl": "https://images.unsplash.com/photo-1493606278519-11aa9f86e40d",
+      "mapUrl": "https://goo.gl/maps/kq9T7uHUWQ8J3kXy6"
+    },
+    {
+      "destination": "London",
+      "name": "The Savoy",
+      "price": "$270/night",
+      "rating": "4.8★",
+      "description": "Historic riverside hotel with timeless luxury.",
+      "imageUrl": "https://images.unsplash.com/photo-1582719478173-2d3df1b1a89e",
+      "mapUrl": "https://goo.gl/maps/SnZVRh2xJALVBAw77"
+    },
+    {
+      "destination": "Dubai",
+      "name": "Burj Al Arab Jumeirah",
+      "price": "$450/night",
+      "rating": "4.9★",
+      "description": "World-famous sail-shaped hotel with luxury amenities.",
+      "imageUrl": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d",
+      "mapUrl": "https://goo.gl/maps/NW6v8NPh3kkTKnN58"
+    },
+    {
+      "destination": "Singapore",
+      "name": "Marina Bay Sands",
+      "price": "$300/night",
+      "rating": "4.8★",
+      "description": "Iconic hotel with infinity pool and skyline views.",
+      "imageUrl": "https://images.unsplash.com/photo-1501117716987-c8e1ecb21055",
+      "mapUrl": "https://goo.gl/maps/vZyNPQyHbHj3Qy6S6"
+    },
+    {
+      "destination": "Sydney",
+      "name": "Four Seasons Sydney",
+      "price": "$280/night",
+      "rating": "4.6★",
+      "description": "Luxury stay overlooking Sydney Harbour.",
+      "imageUrl": "https://images.unsplash.com/photo-1540206395-68808572332f",
+      "mapUrl": "https://goo.gl/maps/wb4fG1SmU7wBhBAdA"
+    }
+  ],
+
+  "spots": [
+    {
+      "destination": "Paris",
+      "place": "Eiffel Tower",
+      "desc": "Iconic landmark offering breathtaking city views.",
+      "category": "Landmark",
+      "imageUrl": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34",
+      "mapUrl": "https://goo.gl/maps/8EczmYvHoxN2"
+    },
+    {
+      "destination": "Paris",
+      "place": "Louvre Museum",
+      "desc": "World's largest art museum and cultural hub.",
+      "category": "Museum",
+      "imageUrl": "https://images.unsplash.com/photo-1532949293136-62d6103c1cc9",
+      "mapUrl": "https://goo.gl/maps/w1L9Zq6JZk72"
+    },
+    {
+      "destination": "Tokyo",
+      "place": "Shibuya Crossing",
+      "desc": "Famous scramble intersection buzzing with life.",
+      "category": "Cityscape",
+      "imageUrl": "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc",
+      "mapUrl": "https://goo.gl/maps/LXJ8vbfR99L2"
+    },
+    {
+      "destination": "New York",
+      "place": "Central Park",
+      "desc": "Massive green oasis perfect for strolls and picnics.",
+      "category": "Nature",
+      "imageUrl": "https://images.unsplash.com/photo-1505761671935-60b3a7427bad",
+      "mapUrl": "https://goo.gl/maps/qQ6jv5WZJpo"
+    },
+    {
+      "destination": "London",
+      "place": "Tower Bridge",
+      "desc": "Historic bridge with stunning river views.",
+      "category": "Landmark",
+      "imageUrl": "https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba",
+      "mapUrl": "https://goo.gl/maps/zcnVfSPSRdm"
+    },
+    {
+      "destination": "Dubai",
+      "place": "Burj Khalifa",
+      "desc": "World’s tallest building with observation decks.",
+      "category": "Landmark",
+      "imageUrl": "https://images.unsplash.com/photo-1496317899792-9d7dbcd928a1",
+      "mapUrl": "https://goo.gl/maps/hyFb9jBKw9M2"
+    },
+    {
+      "destination": "Singapore",
+      "place": "Gardens by the Bay",
+      "desc": "Futuristic gardens with Supertree structures.",
+      "category": "Nature",
+      "imageUrl": "https://images.unsplash.com/photo-1553484771-371a605b060b",
+      "mapUrl": "https://goo.gl/maps/MtbPRpG7Xas"
+    },
+    {
+      "destination": "Sydney",
+      "place": "Sydney Opera House",
+      "desc": "World-renowned performing arts venue by the harbour.",
+      "category": "Cultural",
+      "imageUrl": "https://images.unsplash.com/photo-1526481280690-8cde5b1b2e66",
+      "mapUrl": "https://goo.gl/maps/qy9TCT7Q2Kq"
+    }
+  ]
+}
