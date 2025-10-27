@@ -17,8 +17,6 @@
 
 👉 **Experience it here:** [https://traverly-theta.vercel.app/](https://traverly-theta.vercel.app/)
 
-No sign-up, no downloads — just start planning your next adventure instantly.
-
 ---
 
 ## ✨ Features
