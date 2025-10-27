@@ -37,6 +37,18 @@
       color: white;
       transform: scale(1.05);
     }
+
+   
+ .modal.fade .modal-dialog {
+  transform: translateY(-30px);
+  transition: transform 0.35s ease-out, opacity 0.35s ease-out;
+  opacity: 0;
+}
+.modal.show .modal-dialog {
+  transform: translateY(0);
+  opacity: 1;
+}
+
   </style>
 </head>
 <body>
@@ -54,8 +66,8 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link active" href="blog.html">Blog Page</a></li>
         <li class="nav-item"><a class="nav-link" href="tripplanner.html">Trip Planner</a></li>
+        <li class="nav-item"><a class="nav-link active" href="blog.html">Blog Page</a></li>
         <li class="nav-item"><a class="nav-link" href="deals.html">Deals</a></li>
         <li class="nav-item">
           <a class="btn btn-primary ms-lg-3 signin-btn" href="#" data-bs-toggle="modal" data-bs-target="#signinModal">
