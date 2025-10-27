@@ -1,4 +1,3 @@
-
 // document.addEventListener('DOMContentLoaded', () => {
 
 //   const form = document.querySelector('form');
@@ -213,4 +212,3 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 });
-
