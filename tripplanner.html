@@ -100,6 +100,15 @@
         flex-direction: column;
       }
     }
+    .modal.fade .modal-dialog {
+  transform: translateY(-30px);
+  transition: transform 0.35s ease-out, opacity 0.35s ease-out;
+  opacity: 0;
+}
+.modal.show .modal-dialog {
+  transform: translateY(0);
+  opacity: 1;
+}
   </style>
 </head>
 <body>
