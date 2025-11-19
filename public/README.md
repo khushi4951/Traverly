@@ -94,4 +94,3 @@ Feel free to fork, modify, and build your own version!
   Made with ❤️ for travelers, by travelers.<br>
   <b>Traverly – Explore more, plan less.</b>
 </p>
-=======

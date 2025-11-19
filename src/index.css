@@ -1,0 +1,14 @@
+/* Reset tiny browser margin and ensure full-bleed sections touch edges */
+html, body, #root { height: 100%; }
+body { margin: 0; }
+
+/* Navbar brand: keep image aligned and don’t let a broken image push text */
+.navbar-brand { display: inline-flex; align-items: center; gap: .5rem; }
+.navbar-brand img { width: 36px; height: 36px; object-fit: contain; display: inline-block; }
+
+/* Hero look (dark bg + accent color) */
+.hero-section { background: #121212; }
+.hero-accent { color: #2cb673; }
+
+/* Make the light strip feel like your screenshot */
+section.bg-light.border-top.border-bottom { background-color:#f6f7f9 !important; }

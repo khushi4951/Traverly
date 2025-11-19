@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traverly • Trip Planner</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #fdfdfd;
+    }
+
+    h2, h4 {
+      color: #1d3557;
+    }
+
+    .section-title {
+      border-left: 4px solid #457b9d;
+      padding-left: 10px;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .selectable {
+      cursor: pointer;
+      transition: all 0.25s ease-in-out;
+      background-color: #fff;
+    }
+    .selectable:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .budget-card.border-primary,
+    .companion-card.border-success,
+    .activity-card.border-warning {
+      background-color: #f8f9fa !important;
+      transform: scale(1.03);
+    }
+     .modal.show .modal-dialog {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .feature-icon {
+      font-size: 3rem;
+    }
+
+    .trip-section {
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      height: 100%;
+    }
+
+    #tripSummary, #suggestions {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-primary {
+      background-color: #1d3557;
+      border-color: #1d3557;
+    }
+    .btn-primary:hover {
+      background-color: #457b9d;
+      border-color: #457b9d;
+    }
+
+    /* Two-column layout */
+    .planner-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .planner-left {
+      flex: 1;
+      min-width: 340px;
+      display: none; /* hidden initially */
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    .planner-right {
+      flex: 1;
+      min-width: 340px;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .planner-container {
+        flex-direction: column;
+      }
+    }
+    .modal.fade .modal-dialog {
+  transform: translateY(-30px);
+  transition: transform 0.35s ease-out, opacity 0.35s ease-out;
+  opacity: 0;
+}
+.modal.show .modal-dialog {
+  transform: translateY(0);
+  opacity: 1;
+}
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center"  href="index.html">
+        <img src="assets/logo.png" alt="Traverly Logo" width="40" height="40" class="me-2">
+        Traverly
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="tripplanner.html">Trip Planner</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="deals.html">Deals</a></li>
+          <li class="nav-item">
+          <a class="btn btn-primary ms-lg-3" href="#" data-bs-toggle="modal" data-bs-target="#signinModal">Sign In</a>
+        </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Trip Planner Section -->
+  <section id="trip-planner" class="py-5">
+    <div class="container">
+      <div class="planner-container">
+        
+        <!-- LEFT SIDE -->
+        <div class="planner-left" id="resultSection">
+          <div class="trip-section">
+            <h4 class="fw-bold mb-3 text-primary">Your Trip Summary</h4>
+            <div id="tripSummary"></div>
+            <div id="suggestions" class="mt-5"></div>
+            <div id="react-suggestions-root"></div>
+            <hr>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE (Form) -->
+        <div class="planner-right">
+          <div class="trip-section">
+            <h2 class="h3 fw-bold mb-3">Plan Your Dream Trip 🧳</h2>
+            <p class="text-muted mb-4">Fill in your travel details below, and we’ll generate your itinerary suggestions.</p>
+            
+            <form id="tripForm">
+              <h5 class="section-title">Destination</h5>
+              <input type="text" class="form-control mb-4" placeholder="e.g., Paris, Tokyo, New York" id="destination">
+
+              <h5 class="section-title">Travel Details</h5>
+              <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <input type="date" class="form-control" id="travelDate">
+                </div>
+                <div class="col-md-6">
+                  <input type="number" class="form-control" min="1" placeholder="Number of days" id="days">
+                </div>
+              </div>
+
+              <h5 class="section-title">Budget</h5>
+              <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                  <div class="border rounded p-3 text-center budget-card selectable" data-budget="Low">
+                    💵 <div>Low<br><small>0–1,000 USD</small></div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="border rounded p-3 text-center budget-card selectable" data-budget="Medium">
+                    💰 <div>Medium<br><small>1,000–2,500 USD</small></div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="border rounded p-3 text-center budget-card selectable" data-budget="High">
+                    💎 <div>High<br><small>2,500+ USD</small></div>
+                  </div>
+                </div>
+              </div>
+
+              <h5 class="section-title">Who Are You Traveling With?</h5>
+              <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3 text-center">
+                  <div class="border rounded p-3 companion-card selectable" data-companion="Solo">👤<div>Solo</div></div>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                  <div class="border rounded p-3 companion-card selectable" data-companion="Couple">❤️<div>Couple</div></div>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                  <div class="border rounded p-3 companion-card selectable" data-companion="Family">👨‍👩‍👧<div>Family</div></div>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                  <div class="border rounded p-3 companion-card selectable" data-companion="Friends">👫<div>Friends</div></div>
+                </div>
+              </div>
+
+              <h5 class="section-title">Choose Your Activities</h5>
+              <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3 text-center">
+                  <div class="border rounded p-3 activity-card selectable" data-activity="Beaches">🏖️<div>Beaches</div></div>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                  <div class="border rounded p-3 activity-card selectable" data-activity="City sightseeing">🏙️<div>City sightseeing</div></div>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                  <div class="border rounded p-3 activity-card selectable" data-activity="Outdoor adventures">🥾<div>Outdoor adventures</div></div>
+                </div>
+                <div class="col-6 col-md-3 text-center">
+                  <div class="border rounded p-3 activity-card selectable" data-activity="Festivals">🎉<div>Festivals</div></div>
+                </div>
+              </div>
+
+              <h5 class="section-title">Dietary Preferences</h5>
+              <div class="form-check mb-2">
+                <input type="checkbox" class="form-check-input" id="nonVeg">
+                <label class="form-check-label" for="nonVeg">Non Vegetarian</label>
+              </div>
+              <div class="form-check mb-4">
+                <input type="checkbox" class="form-check-input" id="veg">
+                <label class="form-check-label" for="veg">Vegetarian</label>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 btn-lg">Generate Trip Summary</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+<footer class="py-4 bg-white border-top">
+  <div class="container text-center">
+    <div class="mb-3">
+      <a href="#contact" class="text-decoration-none me-3">Contact</a>
+      <a href="#blog" class="text-decoration-none me-3">Blog</a>
+      <a href="#twitter" class="text-decoration-none me-3">Twitter</a>
+      <a href="#privacy" class="text-decoration-none">Privacy Policy</a>
+    </div>
+    <p class="text-muted mb-0">© 2025 Traverly.</p>
+  </div>
+</footer>
+  <!-- Sign In Modal -->
+<div class="modal fade" id="signinModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 shadow-lg border-0 overflow-hidden">
+      <div class="row g-0">
+        <div class="col-md-6 d-flex flex-column justify-content-center text-white p-5" style="background: linear-gradient(135deg, #2cb673, #1f8a52);">
+          <h2 class="fw-bold mb-3">Welcome Back</h2>
+          <p class="mb-4">Sign in to plan your next adventure with Traverly.</p>
+          <ul class="list-unstyled">
+            <li class="mb-2">✔ AI powered itineraries</li>
+            <li class="mb-2">✔ Flexible trip adjustments</li>
+            <li class="mb-2">✔ Save and access anywhere</li>
+          </ul>
+        </div>
+        <div class="col-md-6 bg-white p-5">
+          <ul class="nav nav-pills mb-4" id="signinTabs">
+            <li class="nav-item w-50">
+              <button class="nav-link active w-100" data-bs-toggle="pill" type="button">Login</button>
+            </li>
+            <li class="nav-item w-50">
+              <button class="nav-link w-100" data-bs-toggle="pill" type="button">Sign Up</button>
+            </li>
+          </ul>
+          <form>
+            <div class="mb-3">
+              <input type="email" class="form-control rounded-3" placeholder="Email">
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control rounded-3" placeholder="Password">
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <small><a href="#" class="text-decoration-none" style="color:#2cb673;">Forgot Password?</a></small>
+            </div>
+            <button type="submit" class="btn btn-lg w-100 text-white rounded-3" style="background: linear-gradient(135deg, #2cb673, #1f8a52);">
+              Login
+            </button>
+          </form>
+          <div class="text-center mt-3">
+            <small>Don't have an account? <a href="#" style="color:#2cb673;">Sign Up</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- React + ReactDOM (CDN) -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+<!-- Babel so we can write JSX inline for this evaluation -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script src="tripplanner.js"></script>
+  <script type="text/babel">
+  const { useEffect, useState } = React;
+
+  function SuggestionsApp() {
+    const [trip, setTrip] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [hotels, setHotels] = useState([]);
+    const [spots, setSpots] = useState([]);
+    const [error, setError] = useState('');
+
+    // 1) wait for vanilla JS to send us the form data
+    useEffect(() => {
+      function onTrip(e) { setTrip(e.detail); }
+      window.addEventListener('TRIP_DATA_READY', onTrip);
+      return () => window.removeEventListener('TRIP_DATA_READY', onTrip);
+    }, []);
+
+    // 2) when we get trip data, load suggestions from db.json
+    useEffect(() => {
+      async function load() {
+        if (!trip) return;
+        setLoading(true); setError(''); setHotels([]); setSpots([]);
+        try {
+          const res = await fetch('./db.json');       // use the file deployed with your site
+          const data = await res.json();
+
+          const match = (s) =>
+            s.destination?.toLowerCase() === trip.destination.toLowerCase();
+
+          setHotels((data.hotels || []).filter(match));
+          setSpots((data.spots || []).filter(match));
+        } catch (err) {
+          setError('Could not load suggestions. Try another destination.');
+        } finally {
+          setLoading(false);
+        }
+      }
+      load();
+    }, [trip]);
+
+    if (!trip) return null; // show nothing until form is submitted
+
+    return (
+      <div className="card shadow-sm border-0 p-3">
+        <h5 className="fw-bold text-primary mb-3">
+          Recommendations for {trip.destination}
+        </h5>
+
+        {loading && <p className="text-muted">Fetching hotels and tourist spots…</p>}
+        {error && <p className="text-danger">{error}</p>}
+
+        {!loading && !error && (
+          <>
+            {!!hotels.length && (
+              <>
+                <h6 className="fw-bold text-primary mt-2 mb-2">🏨 Hotel Suggestions</h6>
+                <div className="row g-3">
+                  {hotels.map((h, i) => (
+                    <div key={i} className="col-12">
+                      <div className="card border-0 shadow-sm">
+                        <div className="row g-0">
+                          <div className="col-4">
+                            <img src={h.imageUrl || 'assets/default-hotel.jpg'}
+                                 className="img-fluid rounded-start" alt={h.name}/>
+                          </div>
+                          <div className="col-8">
+                            <div className="card-body">
+                              <div className="d-flex justify-content-between">
+                                <strong>{h.name}</strong>
+                                <span>{h.rating}</span>
+                              </div>
+                              <p className="small text-muted mb-1">{h.description || ''}</p>
+                              <p className="mb-2"><strong>{h.price}</strong></p>
+                              {h.mapUrl && <a href={h.mapUrl} target="_blank" className="btn btn-sm btn-outline-primary">📍 Map</a>}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {!!spots.length && (
+              <>
+                <h6 className="fw-bold text-primary mt-4 mb-2">🗺️ Tourist Highlights</h6>
+                <div className="row g-3">
+                  {spots.map((s, i) => (
+                    <div key={i} className="col-12">
+                      <div className="card border-0 shadow-sm">
+                        <div className="row g-0">
+                          <div className="col-4">
+                            <img src={s.imageUrl || 'assets/default-spot.jpg'}
+                                 className="img-fluid rounded-start" alt={s.place}/>
+                          </div>
+                          <div className="col-8">
+                            <div className="card-body">
+                              <strong className="d-block mb-1">{s.place}</strong>
+                              <p className="small text-muted mb-2">{s.desc || ''}</p>
+                              {s.category && <span className="badge bg-info text-dark">{s.category}</span>}
+                              {s.mapUrl && <a href={s.mapUrl} target="_blank" className="btn btn-sm btn-outline-primary ms-2">📍 Map</a>}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {!hotels.length && !spots.length && (
+              <p className="text-danger mt-2">No data found. Try another location.</p>
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('react-suggestions-root'))
+          .render(<SuggestionsApp />);
+</script>
+
+</body>
+</html>
