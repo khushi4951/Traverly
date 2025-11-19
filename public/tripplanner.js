@@ -3,27 +3,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultSection = document.getElementById('resultSection');
   const summaryDiv = document.getElementById('tripSummary');
   const suggestionsDiv = document.getElementById('suggestions');
-  const pdfBtn = document.getElementById('downloadPdfBtn');
 
   let selectedBudget = '';
   let selectedCompanion = '';
   let selectedActivities = [];
-  let lastTripData = null; // store trip info for PDF
 
-  /* CARD SELECTION */
+ 
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.selectable');
     if (!card) return;
 
     if (card.classList.contains('budget-card')) {
-      document.querySelectorAll('.budget-card').forEach(c => c.classList.remove('border-primary'));
-      card.classList.add('border-primary');
+      document.querySelectorAll('.budget-card').forEach(c => c.classList.remove('border-primary', 'bg-light'));
+      card.classList.add('border-primary', 'bg-light');
       selectedBudget = card.dataset.budget;
     }
 
     if (card.classList.contains('companion-card')) {
-      document.querySelectorAll('.companion-card').forEach(c => c.classList.remove('border-success'));
-      card.classList.add('border-success');
+      document.querySelectorAll('.companion-card').forEach(c => c.classList.remove('border-success', 'bg-light'));
+      card.classList.add('border-success', 'bg-light');
       selectedCompanion = card.dataset.companion;
     }
 
@@ -31,15 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const activity = card.dataset.activity;
       if (selectedActivities.includes(activity)) {
         selectedActivities = selectedActivities.filter(a => a !== activity);
-        card.classList.remove('border-warning');
+        card.classList.remove('border-warning', 'bg-light');
       } else {
         selectedActivities.push(activity);
-        card.classList.add('border-warning');
+        card.classList.add('border-warning', 'bg-light');
       }
     }
   });
 
-  /* FORM SUBMIT */
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -49,9 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nonVeg = document.getElementById('nonVeg').checked;
     const veg = document.getElementById('veg').checked;
 
-    if (!destination || !travelDate || !days || !selectedBudget ||
-        !selectedCompanion || selectedActivities.length === 0 ||
-        (!nonVeg && !veg)) {
+    if (!destination || !travelDate || !days || !selectedBudget || !selectedCompanion || selectedActivities.length === 0 || (!nonVeg && !veg)) {
       return alert('Please complete all fields before submitting.');
     }
 
@@ -62,20 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
       budget: selectedBudget,
       companion: selectedCompanion,
       activities: selectedActivities,
-      dietary: nonVeg && veg ? 'Non Veg & Veg' :
-                nonVeg ? 'Non Vegetarian' : 'Vegetarian'
+      dietary: nonVeg && veg ? 'Non Veg & Veg' : nonVeg ? 'Non Vegetarian' : 'Vegetarian'
     };
 
-    lastTripData = tripData;
     displaySummary(tripData);
 
-    // Notify React component
-    window.dispatchEvent(new CustomEvent('TRIP_DATA_READY', { detail: tripData }));
+// Tell React that the data is ready
+window.dispatchEvent(new CustomEvent('TRIP_DATA_READY', { detail: tripData }));
 
-    resultSection.style.display = 'block';
+resultSection.style.display = 'block';
+
   });
-
-  /* DISPLAY SUMMARY IN HTML */
   function displaySummary(data) {
     summaryDiv.innerHTML = `
       <ul class="list-unstyled mb-3">
@@ -90,48 +83,79 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  /* =============== PDF GENERATION ================== */
-  pdfBtn.addEventListener('click', async () => {
-    if (!lastTripData) return alert("Generate your itinerary first.");
+  async function fetchSuggestions(destination) {
+    suggestionsDiv.innerHTML = `<p class="text-muted">Fetching hotels and tourist spots for ${destination}...</p>`;
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ unit: "pt", format: "a4" });
+    try {
+      const [hotelsRes, spotsRes] = await Promise.all([
+        fetch(`http://localhost:3000/hotels?destination=${encodeURIComponent(destination)}`),
+        fetch(`http://localhost:3000/spots?destination=${encodeURIComponent(destination)}`)
+      ]);
 
-    let y = 40;
+      const hotels = await hotelsRes.json();
+      const spots = await spotsRes.json();
 
-    pdf.setFontSize(18);
-    pdf.text("Travel Itinerary", 40, y);
-    y += 25;
-
-    pdf.setFontSize(12);
-    pdf.text(`Destination: ${lastTripData.destination}`, 40, y); y += 18;
-    pdf.text(`Travel Date: ${lastTripData.travelDate}`, 40, y); y += 18;
-    pdf.text(`Days: ${lastTripData.days}`, 40, y); y += 18;
-    pdf.text(`Budget: ${lastTripData.budget}`, 40, y); y += 18;
-    pdf.text(`Companion: ${lastTripData.companion}`, 40, y); y += 18;
-    pdf.text(`Activities: ${lastTripData.activities.join(", ")}`, 40, y); y += 18;
-    pdf.text(`Dietary: ${lastTripData.dietary}`, 40, y);
-    y += 30;
-
-    /* HOTEL & SPOT LIST FROM REACT SECTION */
-    const textContent = document.getElementById("react-suggestions-root").innerText.split("\n");
-
-    pdf.setFontSize(14);
-    pdf.text("Recommendations", 40, y);
-    y += 20;
-
-    pdf.setFontSize(11);
-
-    textContent.forEach(line => {
-      if (y > 780) { // new page
-        pdf.addPage();
-        y = 40;
+      if (hotels.length === 0 && spots.length === 0) {
+        suggestionsDiv.innerHTML = `<p class="text-danger">No data found for "${destination}". Try another location.</p>`;
+        return;
       }
-      pdf.text(line, 40, y);
-      y += 16;
-    });
 
-    pdf.save(`itinerary_${lastTripData.destination}.pdf`);
-  });
+      suggestionsDiv.innerHTML = `
+        <div class="card shadow-sm border-0 p-3 mb-4">
+          ${hotels.length ? `
+            <h4 class="fw-bold mb-3 text-primary">🏨 Hotel Suggestions</h4>
+            <div class="row g-3">
+              ${hotels.map(h => `
+                <div class="col-12">
+                  <div class="card border-0 shadow-sm mb-3">
+                    <div class="row g-0">
+                      <div class="col-4">
+                        <img src="${h.imageUrl || 'assets/default-hotel.jpg'}" class="img-fluid rounded-start" alt="${h.name}">
+                      </div>
+                      <div class="col-8">
+                        <div class="card-body">
+                          <h6 class="card-title mb-1">${h.name}</h6>
+                          <p class="small text-muted mb-1">${h.description || ''}</p>
+                          <p class="mb-1"><strong>${h.price}</strong> • ⭐ ${h.rating}</p>
+                          ${h.mapUrl ? `<a href="${h.mapUrl}" target="_blank" class="btn btn-sm btn-outline-primary">📍 View Map</a>` : ''}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
 
+          ${spots.length ? `
+            <h4 class="fw-bold mt-4 mb-3 text-primary">🗺️ Tourist Highlights</h4>
+            <div class="row g-3">
+              ${spots.map(s => `
+                <div class="col-12">
+                  <div class="card border-0 shadow-sm mb-3">
+                    <div class="row g-0">
+                      <div class="col-4">
+                        <img src="${s.imageUrl || 'assets/default-spot.jpg'}" class="img-fluid rounded-start" alt="${s.place}">
+                      </div>
+                      <div class="col-8">
+                        <div class="card-body">
+                          <h6 class="card-title mb-1">${s.place}</h6>
+                          <p class="small text-muted mb-1">${s.desc || ''}</p>
+                          ${s.category ? `<span class="badge bg-info text-dark">${s.category}</span>` : ''}
+                          ${s.mapUrl ? `<a href="${s.mapUrl}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">📍 Map</a>` : ''}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      suggestionsDiv.innerHTML = `<p class="text-danger">Failed to load suggestions. Please check your server.</p>`;
+    }
+  }
 });
