@@ -1,14 +1,28 @@
-/* Reset tiny browser margin and ensure full-bleed sections touch edges */
+/* src/index.css -- add or replace with this */
+
 html, body, #root { height: 100%; }
-body { margin: 0; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
 
 /* Navbar brand: keep image aligned and don’t let a broken image push text */
 .navbar-brand { display: inline-flex; align-items: center; gap: .5rem; }
 .navbar-brand img { width: 36px; height: 36px; object-fit: contain; display: inline-block; }
 
-/* Hero look (dark bg + accent color) */
-.hero-section { background: #121212; }
+/* Hero */
+.hero-section {
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
 .hero-accent { color: #2cb673; }
 
-/* Make the light strip feel like your screenshot */
+/* Feature strip */
 section.bg-light.border-top.border-bottom { background-color:#f6f7f9 !important; }
+
+/* Make iframe responsive (bootstrap .ratio already used) */
+.ratio { overflow: hidden; }
+
+/* small responsive tweaks */
+@media (max-width: 768px) {
+  .hero-section { min-height: 60vh; padding: 3rem 1rem; }
+  .display-4 { font-size: 2rem; }
+}

@@ -33,9 +33,19 @@ export default function Navbar() {
             <li className="nav-item">
               <a className="nav-link" href="/deals.html">Deals</a>
             </li>
+            
             <li className="nav-item ms-2">
-              <a className="btn btn-primary" href="/signin.html">Sign In</a>
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#signinModal"
+            >
+              Sign In
+            </button>
             </li>
+
+
           </ul>
         </div>
       </div>

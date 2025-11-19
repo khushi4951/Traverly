@@ -1,0 +1,53 @@
+/* src/components/weather-strip.css */
+
+.weather-section { position: relative; }
+
+.weather-row {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.weather-card {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(17,17,17,0.06);
+  padding: 1.25rem 1rem;
+  transition: transform 0.25s ease;
+  min-width: 220px;
+}
+.weather-card:hover { transform: translateY(-6px); }
+.weather-icon { font-size: 1.9rem; }
+.weather-temp { font-size: 1.5rem; color: #1f8a52; font-weight: 600; }
+
+/* nav buttons */
+.weather-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+.left-btn { left: 8px; }
+.right-btn { right: 8px; }
+
+/* ensure container spacing like original */
+@media (min-width: 1200px) {
+  .weather-row { margin-left: 3rem; margin-right: 3rem; }
+  .weather-nav.left-btn { left: 0.5rem; }
+  .weather-nav.right-btn { right: 0.5rem; }
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .weather-card { flex: 0 0 180px; min-width: 180px; }
+  .weather-nav { display: none; } /* mobile uses native swipe */
+}
