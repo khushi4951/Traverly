@@ -1,4 +1,4 @@
-// src/components/WeatherStrip.jsx
+
 import React, { useEffect, useRef, useState } from "react";
 import "./weather-strip.css";
 
@@ -30,7 +30,8 @@ function emojiFor(weathercode) {
 }
 
 export default function WeatherStrip({ cities = CITIES }) {
-  const [items, setItems] = useState([]); // { name, temp, windspeed, winddir, code, time, error }
+  const [items, setItems] = useState([]); 
+  
   const containerRef = useRef(null);
 
   useEffect(() => {
